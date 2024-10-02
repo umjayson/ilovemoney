@@ -1,49 +1,73 @@
-
 <!DOCTYPE html>
 <html lang="en">
-    <head>
+<head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>ilovemoney.lol - Coming Soon</title>
-        
+        <title>ilovemoney.lol - 404</title>
         <meta property="og:title" content="ilovemoney" />
         <meta property="og:description" content="ilovemoney.lol lets you create and share bio-pages focused on your financial journey" />
         <meta property="og:image" content="https://ilovemoney.lol/assets/StupidThumbnail.jpg" />
         <meta property="og:url" content="https://ilovemoney.lol" />
         <meta name="twitter:card" content="summary_large_image">
-        
-        <style>
-            body {
-               background-color: #121212; 
-                color: #cc3333;
-                font-family: 'Arial', sans-serif; 
-                text-align: center;
-                padding: 50px;
-                margin: 0;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                height: 100vh;
-                box-sizing: border-box;
-            }
-            h1 {
-                font-size: 48px;
-                margin-bottom: 20px;
-                color: #ff4d4d;
-                letter-spacing: 2px;
-                text-transform: uppercase;
-            }
-            p {
-                font-size: 22px;
-                margin-bottom: 40px;
-                letter-spacing: 1.5px;
-                font-style: italic;
-            }
-        </style>
-    </head>
-    <body>
-        <h1>ERROR, 404</h1>
-        <p>No page could be found with this handle, join discord.gg/stupid for more</p>
-    </body>
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #0a0a0a, #1a1a1a);
+            background-image: url('https://cdn.discordapp.com/attachments/1142144976160047195/1291151149541490719/oscar_cdn.png?ex=66ff0db6&is=66fdbc36&hm=f959f2285b572dad00c7a5dd7fe89f9e6bf9b9f098c0a17aa776b510815ae011&'); /* Adding snake-like design */
+            background-size: cover;
+            background-position: center;
+            font-family: 'Courier Prime', 'Courier New', Courier, monospace;
+        }
+
+        .container {
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 40px;
+            border-radius: 20px;
+        }
+
+        .error-code {
+            font-size: 6rem;
+            color: #c72b1c;
+            font-family: Arial, sans-serif;
+        }
+
+        .message {
+            font-size: 2rem;
+            color: #808080;
+            margin-bottom: 20px;
+            font-family: 'Courier Prime', 'Courier New', Courier, monospace;
+        }
+
+        .link-icon img {
+            width: 50px;
+            height: 50px;
+            margin-top: 20px;
+            transition: transform 0.2s;
+        }
+
+        .link-icon:hover img {
+            transform: scale(1.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="error-code">404</h1>
+        <p class="message">not found</p>
+        <a href="https://discord.gg/stupid" target="_blank" class="link-icon">
+            <img src="https://em-content.zobj.net/source/apple/391/link_1f517.png" alt="Link Icon">
+        </a>
+    </div>
+</body>
 </html>
