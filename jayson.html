@@ -20,12 +20,12 @@
     <link rel="icon" href="/assets/img/icon.png" type="image/x-icon">
 
     <style>
-        /* Add initial blur to the background */
-        .blurred {
+        /* Only blur the background and the main content */
+        .blurred .container, 
+        .blurred .background {
             filter: blur(8px);
         }
 
-        /* Style the Click to Enter overlay */
         #clickToEnterOverlay {
             position: fixed;
             top: 0;
@@ -48,7 +48,6 @@
             animation: blink 1.5s step-start infinite;
         }
 
-        /* Blink animation for the "Click to Enter" text */
         @keyframes blink {
             50% {
                 opacity: 0;
@@ -59,12 +58,12 @@
         #clickToEnterOverlay.hidden {
             display: none;
         }
-
     </style>
 </head>
 
-<body class="blurred locked" style="font-family: Satoshi, sans-serif; cursor: url('/cdn/files/cursor/853683708099821598.cur'), auto; background-color: #222222;">
-    <!-- Replace background video with GIF -->
+<body class="blurred" style="font-family: Satoshi, sans-serif; cursor: url('/cdn/files/cursor/853683708099821598.cur'), auto; background-color: #222222;">
+    
+    <!-- Background GIF -->
     <div class="background" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-image: url('https://r2.guns.lol/de5cff6f-6af1-4395-8a79-d14c25149dbd.gif'); background-size: cover; background-position: center;"></div>
   
     <!-- Click to Enter overlay -->
@@ -162,7 +161,6 @@
             var clickToEnterOverlay = document.getElementById('clickToEnterOverlay');
             var body = document.querySelector('body');
 
-            // Remove the Click to Enter overlay and blur class, enable mouse effects
             clickToEnterOverlay.classList.add('hidden');
             body.classList.remove('blurred');
         });
