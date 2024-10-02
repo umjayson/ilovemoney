@@ -19,7 +19,6 @@
     <link href="https://api.fontshare.com/v2/css?f[]=satoshi@1&amp;f[]=array@400&amp;display=swap" rel="stylesheet">
     <link rel="icon" href="/assets/img/icon.png" type="image/x-icon">
 
-    <!-- Add Minecraftia font -->
     <style>
         @font-face {
             font-family: 'Minecraftia';
@@ -28,24 +27,21 @@
             src: local('Minecraftia'), url('https://fonts.cdnfonts.com/s/31977/Minecraftia.woff') format('woff');
         }
 
-        /* Only blur the background and the main content */
         .blurred .background {
             filter: blur(8px);
-            transition: filter 1s ease; /* Smooth transition for blur */
+            transition: filter 1s ease; 
         }
 
-        /* Hide the container and keep its layout initially */
         .container {
             opacity: 0;
             visibility: hidden;
-            transition: opacity 1s ease, visibility 0s linear 1s; /* Transition visibility after opacity */
+            transition: opacity 1s ease, visibility 0s linear 1s; 
         }
 
-        /* Show the container with fade in */
         .container.show {
             opacity: 1;
             visibility: visible;
-            transition: opacity 1s ease; /* Smooth transition for showing the container */
+            transition: opacity 1s ease; 
         }
 
         #clickToEnterOverlay {
@@ -57,27 +53,24 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-            z-index: 9999; /* High z-index to be on top */
-            transition: opacity 1s ease; /* Smooth transition for fade out */
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 9999; 
+            transition: opacity 1s ease; 
         }
 
-        /* Style the Click to Enter text with Minecraftia font */
         .clickToEnterText {
             color: white;
             font-size: 32px;
             font-weight: bold;
             font-family: 'Minecraftia', sans-serif;
             text-align: center;
-            user-select: none; /* Disable text selection */
+            user-select: none; 
         }
 
-        /* Fade out the overlay */
         #clickToEnterOverlay.fade-out {
             opacity: 0;
         }
 
-        /* Hide the overlay when fully faded */
         #clickToEnterOverlay.hidden {
             display: none;
         }
@@ -86,10 +79,8 @@
 
 <body class="blurred" style="font-family: Satoshi, sans-serif; cursor: url('/cdn/files/cursor/853683708099821598.cur'), auto; background-color: #222222;">
     
-    <!-- Background GIF -->
     <div class="background" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-image: url('https://r2.guns.lol/de5cff6f-6af1-4395-8a79-d14c25149dbd.gif'); background-size: cover; background-position: center;"></div>
   
-    <!-- Click to Enter overlay -->
     <div id="clickToEnterOverlay">
         <div class="clickToEnterText">Click to Enter</div>
     </div>
@@ -99,7 +90,6 @@
         Your browser does not support the audio element.
     </audio>
     
-    <!-- Initially hidden container -->
     <div class="container">
         <img class="avatar" src="/assets/img/sq.png">
 
@@ -187,15 +177,13 @@
             var container = document.querySelector('.container');
             var background = document.querySelector('.background');
 
-            // Add fade-out class and remove blur after transition
             clickToEnterOverlay.classList.add('fade-out');
             body.classList.remove('blurred');
             
-            // Show the container after the fade-out animation
             setTimeout(function() {
                 clickToEnterOverlay.classList.add('hidden');
                 container.classList.add('show');
-            }, 1000); // Wait for the fade-out effect to finish (1 second)
+            }, 1000); 
         });
     </script>
 
