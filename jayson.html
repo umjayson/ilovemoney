@@ -19,9 +19,17 @@
     <link href="https://api.fontshare.com/v2/css?f[]=satoshi@1&amp;f[]=array@400&amp;display=swap" rel="stylesheet">
     <link rel="icon" href="/assets/img/icon.png" type="image/x-icon">
 
+    <!-- Add Minecraftia font -->
     <style>
+        @font-face {
+            font-family: 'Minecraftia';
+            font-style: normal;
+            font-weight: 400;
+            src: local('Minecraftia'), url('https://fonts.cdnfonts.com/s/31977/Minecraftia.woff') format('woff');
+        }
+
         /* Only blur the background and the main content */
-        .blurred .container, 
+        .blurred .container,
         .blurred .background {
             filter: blur(8px);
         }
@@ -39,19 +47,14 @@
             z-index: 9999; /* High z-index to be on top */
         }
 
-        /* Style the Click to Enter text */
+        /* Style the Click to Enter text with Minecraftia font */
         .clickToEnterText {
             color: white;
             font-size: 32px;
             font-weight: bold;
+            font-family: 'Minecraftia', sans-serif;
             text-align: center;
-            animation: blink 1.5s step-start infinite;
-        }
-
-        @keyframes blink {
-            50% {
-                opacity: 0;
-            }
+            user-select: none; /* Disable text selection */
         }
 
         /* Hide the overlay after click */
