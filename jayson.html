@@ -34,17 +34,18 @@
             transition: filter 1s ease; /* Smooth transition for blur */
         }
 
-        /* Initially hide the container */
+        /* Hide the container and keep its layout initially */
         .container {
-            display: none;
             opacity: 0;
-            transition: opacity 1s ease; /* Smooth transition for showing the container */
+            visibility: hidden;
+            transition: opacity 1s ease, visibility 0s linear 1s; /* Transition visibility after opacity */
         }
 
         /* Show the container with fade in */
         .container.show {
-            display: block;
             opacity: 1;
+            visibility: visible;
+            transition: opacity 1s ease; /* Smooth transition for showing the container */
         }
 
         #clickToEnterOverlay {
