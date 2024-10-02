@@ -5,12 +5,12 @@
     <meta charset="UTF-8">
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta property="og:title" content="@jayson • ilovemoney" />
-        <meta property="og:description" content="i love my wife nikki" />
-        <meta property="og:image" content="https://media.discordapp.net/attachments/1142144976160047195/1291162434286915717/oscar_cdn.png?ex=66ff1838&is=66fdc6b8&hm=a57e94cbfe878f6493a5eddd1441082eaf4679c2c638de0b30c7556f2f4aa1ac&=&format=webp&quality=lossless&width=1024&height=512" />
-        <meta property="og:url" content="https://ilovemoney.lol/jayson" />
-        <meta property="theme-color" content="#1b1b1b">
-        <meta name="twitter:card" content="summary_large_image">
+    <meta property="og:title" content="@jayson • ilovemoney" />
+    <meta property="og:description" content="i love my wife nikki" />
+    <meta property="og:image" content="https://media.discordapp.net/attachments/1142144976160047195/1291162434286915717/oscar_cdn.png?ex=66ff1838&is=66fdc6b8&hm=a57e94cbfe878f6493a5eddd1441082eaf4679c2c638de0b30c7556f2f4aa1ac&=&format=webp&quality=lossless&width=1024&height=512" />
+    <meta property="og:url" content="https://ilovemoney.lol/jayson" />
+    <meta property="theme-color" content="#1b1b1b">
+    <meta name="twitter:card" content="summary_large_image">
     <title>@jayson</title>
     
     <meta content="#2F3136" name="theme-color">
@@ -25,16 +25,48 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Bungee&family=Creepster&family=Gloria+Hallelujah&family=Permanent+Marker&display=swap"
         rel="stylesheet">
+    
+    <style>
+        /* Add initial blur to the background */
+        .blurred {
+            filter: blur(8px);
+        }
+
+        /* Style the Click to Enter overlay */
+        #clickToEnterOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+            z-index: 9999; /* High z-index to be on top */
+        }
+
+        /* Style the Click to Enter text */
+        .clickToEnterText {
+            color: white;
+            font-size: 32px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        /* Hide the overlay after click */
+        #clickToEnterOverlay.hidden {
+            display: none;
+        }
+    </style>
 </head>
 
-<body style="font-family: Satoshi, sans-serif; cursor: url('/cdn/files/cursor/853683708099821598.cur'), auto; background-color: #222222;">
-    <video class="background" autoplay muted loop>
-        <source src="https://cdn.discordapp.com/attachments/1142144976160047195/1291163908127854673/ezgif.com-gif-to-mp4-converter.mp4?ex=66ff1998&is=66fdc818&hm=f85ca405d11d1d1f91b4c5408ee9e4eb6ef7281eaae72edda14e0ef95067079d&" type="video/mp4">
-        Votre navigateur ne prend pas en charge la balise vidéo.
-    </video>
+<body class="blurred" style="font-family: Satoshi, sans-serif; cursor: url('/cdn/files/cursor/853683708099821598.cur'), auto; background-color: #222222;">
+<div class="userPage_backgroundImage__11BmZ" style="background-image:url(https://r2.guns.lol/de5cff6f-6af1-4395-8a79-d14c25149dbd.gif)"></div>
   
+    <!-- Click to Enter overlay -->
     <div id="clickToEnterOverlay" class="userPage_clickToEnterOverlay__yTl7T">
-        <div class="userPage_clickToEnterText__3qgKs" style="font-weight:700;font-size:32px">Click to Enter</div>
+        <div class="clickToEnterText">Click to Enter</div>
     </div>
 
     <audio id="bgMusic" loop>
@@ -120,14 +152,18 @@
     </div>
     <div style="display: none;" id="curEffClr">#ffffff</div>
 
-<script>
-    document.addEventListener('click', function() {
-        var audio = document.getElementById('bgMusic');
-        audio.play();
-        var clickToEnterOverlay = document.getElementById('clickToEnterOverlay');
-        clickToEnterOverlay.style.display = 'none'; 
-    });
-</script>
+    <script>
+        document.addEventListener('click', function() {
+            var audio = document.getElementById('bgMusic');
+            audio.play();
+            var clickToEnterOverlay = document.getElementById('clickToEnterOverlay');
+            var body = document.querySelector('body');
+
+            // Remove the Click to Enter overlay and blur class
+            clickToEnterOverlay.classList.add('hidden');
+            body.classList.remove('blurred');
+        });
+    </script>
     
     <script src="/assets/js/cur-snow.js"></script>
 </body>
