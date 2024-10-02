@@ -30,10 +30,10 @@
 <body profile=""
     style="font-family: Satoshi, sans-serif; cursor: url('/cdn/files/cursor/853683708099821598.cur'), auto; background-color: #222222;">
 
-       <audio autoplay loop>
-        <source src="/assets/audios/0c35dbf1-5495-4ebf-a1f2-277b9013f2d4.mp3" type="audio/mp3">
-        Your browser does not support the audio element.
-    </audio>
+<audio id="bgMusic" loop>
+    <source src="/assets/audios/0c35dbf1-5495-4ebf-a1f2-277b9013f2d4.mp3" type="audio/mp3">
+    Your browser does not support the audio element.
+</audio>
     
     <video class="background" autoplay muted loop>
         <source src="https://cdn.discordapp.com/attachments/1142144976160047195/1291163908127854673/ezgif.com-gif-to-mp4-converter.mp4?ex=66ff1998&is=66fdc818&hm=f85ca405d11d1d1f91b4c5408ee9e4eb6ef7281eaae72edda14e0ef95067079d&" type="video/mp4">
@@ -117,6 +117,14 @@
         </div>
     </div>
     <div style="display: none;" id="curEffClr">#ffffff</div>
+
+    <script>
+    document.addEventListener('click', function() {
+        var audio = document.getElementById('bgMusic');
+        audio.play();
+    });
+</script>
+    
     <script src="/assets/js/cur-snow.js"></script>
 </body>
 
