@@ -3,7 +3,6 @@
 
 <head>
     <meta charset="UTF-8">
-    
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta property="og:title" content="@jayson • ilovemoney" />
     <meta property="og:description" content="i love my wife nikki" />
@@ -12,7 +11,7 @@
     <meta property="theme-color" content="#1b1b1b">
     <meta name="twitter:card" content="summary_large_image">
     <title>@jayson</title>
-    
+
     <meta content="#2F3136" name="theme-color">
     <meta content="@jayson" property="og:title">
     <link rel="stylesheet" href="assets/css/global.css">
@@ -20,12 +19,6 @@
     <link href="https://api.fontshare.com/v2/css?f[]=satoshi@1&amp;f[]=array@400&amp;display=swap" rel="stylesheet">
     <link rel="icon" href="/assets/img/icon.png" type="image/x-icon">
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Bungee&family=Creepster&family=Gloria+Hallelujah&family=Permanent+Marker&display=swap"
-        rel="stylesheet">
-    
     <style>
         /* Add initial blur to the background */
         .blurred {
@@ -52,20 +45,30 @@
             font-size: 32px;
             font-weight: bold;
             text-align: center;
+            animation: blink 1.5s step-start infinite;
+        }
+
+        /* Blink animation for the "Click to Enter" text */
+        @keyframes blink {
+            50% {
+                opacity: 0;
+            }
         }
 
         /* Hide the overlay after click */
         #clickToEnterOverlay.hidden {
             display: none;
         }
+
     </style>
 </head>
 
-<body class="blurred" style="font-family: Satoshi, sans-serif; cursor: url('/cdn/files/cursor/853683708099821598.cur'), auto; background-color: #222222;">
-<div class="userPage_backgroundImage__11BmZ" style="background-image:url(https://r2.guns.lol/de5cff6f-6af1-4395-8a79-d14c25149dbd.gif)"></div>
+<body class="blurred locked" style="font-family: Satoshi, sans-serif; cursor: url('/cdn/files/cursor/853683708099821598.cur'), auto; background-color: #222222;">
+    <!-- Replace background video with GIF -->
+    <div class="background" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-image: url('https://r2.guns.lol/de5cff6f-6af1-4395-8a79-d14c25149dbd.gif'); background-size: cover; background-position: center;"></div>
   
     <!-- Click to Enter overlay -->
-    <div id="clickToEnterOverlay" class="userPage_clickToEnterOverlay__yTl7T">
+    <div id="clickToEnterOverlay">
         <div class="clickToEnterText">Click to Enter</div>
     </div>
 
@@ -159,12 +162,12 @@
             var clickToEnterOverlay = document.getElementById('clickToEnterOverlay');
             var body = document.querySelector('body');
 
-            // Remove the Click to Enter overlay and blur class
+            // Remove the Click to Enter overlay and blur class, enable mouse effects
             clickToEnterOverlay.classList.add('hidden');
             body.classList.remove('blurred');
         });
     </script>
-    
+
     <script src="/assets/js/cur-snow.js"></script>
 </body>
 
