@@ -29,9 +29,22 @@
         }
 
         /* Only blur the background and the main content */
-        .blurred .container,
         .blurred .background {
             filter: blur(8px);
+            transition: filter 1s ease; /* Smooth transition for blur */
+        }
+
+        /* Initially hide the container */
+        .container {
+            display: none;
+            opacity: 0;
+            transition: opacity 1s ease; /* Smooth transition for showing the container */
+        }
+
+        /* Show the container with fade in */
+        .container.show {
+            display: block;
+            opacity: 1;
         }
 
         #clickToEnterOverlay {
@@ -45,6 +58,7 @@
             align-items: center;
             background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
             z-index: 9999; /* High z-index to be on top */
+            transition: opacity 1s ease; /* Smooth transition for fade out */
         }
 
         /* Style the Click to Enter text with Minecraftia font */
@@ -57,7 +71,12 @@
             user-select: none; /* Disable text selection */
         }
 
-        /* Hide the overlay after click */
+        /* Fade out the overlay */
+        #clickToEnterOverlay.fade-out {
+            opacity: 0;
+        }
+
+        /* Hide the overlay when fully faded */
         #clickToEnterOverlay.hidden {
             display: none;
         }
@@ -79,6 +98,7 @@
         Your browser does not support the audio element.
     </audio>
     
+    <!-- Initially hidden container -->
     <div class="container">
         <img class="avatar" src="/assets/img/sq.png">
 
@@ -163,9 +183,18 @@
             audio.play();
             var clickToEnterOverlay = document.getElementById('clickToEnterOverlay');
             var body = document.querySelector('body');
+            var container = document.querySelector('.container');
+            var background = document.querySelector('.background');
 
-            clickToEnterOverlay.classList.add('hidden');
+            // Add fade-out class and remove blur after transition
+            clickToEnterOverlay.classList.add('fade-out');
             body.classList.remove('blurred');
+            
+            // Show the container after the fade-out animation
+            setTimeout(function() {
+                clickToEnterOverlay.classList.add('hidden');
+                container.classList.add('show');
+            }, 1000); // Wait for the fade-out effect to finish (1 second)
         });
     </script>
 
