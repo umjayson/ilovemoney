@@ -7,11 +7,12 @@
 
         <meta property="og:title" content="ilovemoney.lol" />
         <meta property="og:description" content="Create your own ilovemoney.lol with our robust page builder, customize your social presence like never before." />
-        <meta property="og:image" content="https://ilovemoney.lol/assets/img/banner.png" />
+        <meta property="og:image" content="/assets/img/banner.png" />
         <meta property="og:url" content="https://ilovemoney.lol" />
         <meta name="twitter:card" content="summary_large_image">
         <meta property="theme-color" content="#6a0000">
         <link rel="icon" href="/assets/img/logo.png" type="image/x-icon">
+        <script disable-devtool-auto="" src="https://cdn.jsdelivr.net/npm/disable-devtool"></script>
 
         <style>
             * {
@@ -37,7 +38,23 @@
                 height: 100%;
                 object-fit: cover;
                 user-select: none;
-                pointer-events: none; 
+                pointer-events: none;
+            }
+
+        
+            @media (min-width: 1024px) {
+                img {
+                    width: 100vw;
+                    height: 100vh;
+                }
+            }
+
+    
+            @media (max-width: 1023px) {
+                img {
+                    max-width: 100%;
+                    height: auto;
+                }
             }
         </style>
 
