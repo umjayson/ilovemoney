@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>ilovemoney.lol • Coming Soon</title>
-        
+
         <meta property="og:title" content="ilovemoney.lol" />
         <meta property="og:description" content="Create your own ilovemoney.lol with our robust page builder, customize your social presence like never before." />
         <meta property="og:image" content="https://ilovemoney.lol/assets/img/banner.png" />
@@ -12,34 +12,45 @@
         <meta name="twitter:card" content="summary_large_image">
         <meta property="theme-color" content="#6a0000">
         <link rel="icon" href="/assets/img/logo.png" type="image/x-icon">
-        
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
 
-        body, html {
-            height: 100%;
-            overflow: hidden;
-        }
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
 
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #f0f0f0;
-        }
+            body, html {
+                height: 100%;
+                overflow: hidden;
+            }
 
-        img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-    </style>
-</head>
-<body>
-    <img src="https://ilovemoney.lol/assets/img/banner.png" alt="Landing Page Banner">
-</body>
+            body {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-color: #f0f0f0;
+            }
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                user-select: none;
+                pointer-events: none; 
+            }
+        </style>
+
+        <script>
+            document.addEventListener('contextmenu', event => event.preventDefault());
+
+            window.onload = function() {
+                const img = document.querySelector('img');
+                img.setAttribute('draggable', false);
+            };
+        </script>
+    </head>
+    <body>
+        <img src="https://ilovemoney.lol/assets/img/banner.png" alt="Landing Page Banner">
+    </body>
 </html>
