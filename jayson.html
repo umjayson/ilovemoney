@@ -171,7 +171,9 @@
     <script>
         document.addEventListener('click', function() {
             var audio = document.getElementById('bgMusic');
+            audio.volume = 0.5;
             audio.play();
+            
             var clickToEnterOverlay = document.getElementById('clickToEnterOverlay');
             var body = document.querySelector('body');
             var container = document.querySelector('.container');
