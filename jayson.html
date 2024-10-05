@@ -75,20 +75,21 @@
             display: none;
         }
 
-        .userPage_volumeButton__Da10v {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #555;
-            padding: 10px;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
+    .userPage_volumeButton__Da10v {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: rgba(255, 255, 255, 0.2); 
+        padding: 10px;
+        border-radius: 50%;
+        cursor: pointer;
+        backdrop-filter: blur(8px); 
+        transition: background-color 0.3s ease;
+    }
 
-        .userPage_volumeButton__Da10v:hover {
-            background-color: #777;
-        }
+    .userPage_volumeButton__Da10v:hover {
+        background-color: rgba(255, 255, 255, 0.4);
+    }
     </style>
 </head>
 
@@ -244,7 +245,7 @@
             }
         });
 
-            function getProfileViews() {
+function getProfileViews() {
         let views = localStorage.getItem('profileViews');
         if (!views) {
             views = 6238; 
@@ -261,7 +262,7 @@
     function isUniqueVisitor() {
         const visited = localStorage.getItem('visited');
         if (!visited) {
-            localStorage.setItem('visited', 'true'); 
+            localStorage.setItem('visited', 'true');
             return true;
         }
         return false;
