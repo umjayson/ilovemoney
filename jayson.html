@@ -75,21 +75,32 @@
             display: none;
         }
 
-    .userPage_volumeButton__Da10v {
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        background-color: rgba(255, 255, 255, 0.2); 
-        padding: 10px;
-        border-radius: 50%;
-        cursor: pointer;
-        backdrop-filter: blur(8px); 
-        transition: background-color 0.3s ease;
-    }
+.userPage_volumeButton__Da10v {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background-color: transparent;
+            border-radius: 8px; 
+            backdrop-filter: blur(8px); 
+            cursor: pointer;
+            display: none; 
+            transition: all 0.3s ease;
+        }
 
-    .userPage_volumeButton__Da10v:hover {
-        background-color: rgba(255, 255, 255, 0.4);
-    }
+        .userPage_volumeButton__Da10v:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .userPage_profileViews {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            color: white;
+            font-weight: 550;
+            font-size: 15.5px;
+        }
     </style>
 </head>
 
@@ -246,38 +257,74 @@
         });
 
 function getProfileViews() {
-        let views = localStorage.getItem('profileViews');
-        if (!views) {
-            views = 6238; 
+            let views = localStorage.getItem('profileViews');
+            if (!views) {
+                views = 6238; // Initial view count
+                localStorage.setItem('profileViews', views);
+            }
+            return parseInt(views);
+        }
+
+        function setProfileViews(views) {
             localStorage.setItem('profileViews', views);
-        }
-        return parseInt(views);
-    }
-
-    function setProfileViews(views) {
-        localStorage.setItem('profileViews', views);
-        document.getElementById('profileViews').innerText = views.toLocaleString();
-    }
-
-    function isUniqueVisitor() {
-        const visited = localStorage.getItem('visited');
-        if (!visited) {
-            localStorage.setItem('visited', 'true');
-            return true;
-        }
-        return false;
-    }
-
-    window.onload = function () {
-        let views = getProfileViews();
-
-        if (isUniqueVisitor()) {
-            views++;
-            setProfileViews(views);
-        } else {
             document.getElementById('profileViews').innerText = views.toLocaleString();
         }
-    };
+
+        function isUniqueVisitor() {
+            const visited = localStorage.getItem('visited');
+            if (!visited) {
+                localStorage.setItem('visited', 'true');
+                return true;
+            }
+            return false;
+        }
+
+        // Volume button functionality
+        function setupVolumeButton() {
+            var isMuted = false;
+            var volumeButton = document.getElementById('volumeButton');
+            var audio = document.getElementById('bgMusic');
+
+            volumeButton.addEventListener('click', function (event) {
+                event.stopPropagation();
+                if (isMuted) {
+                    audio.muted = false;
+                    isMuted = false;
+                } else {
+                    audio.muted = true;
+                    isMuted = true;
+                }
+            });
+        }
+
+        window.onload = function () {
+            let views = getProfileViews();
+            if (isUniqueVisitor()) {
+                views++;
+                setProfileViews(views);
+            } else {
+                document.getElementById('profileViews').innerText = views.toLocaleString();
+            }
+            var clickToEnterOverlay = document.getElementById('clickToEnterOverlay');
+            var container = document.querySelector('.container');
+            var volumeButton = document.getElementById('volumeButton');
+
+            document.addEventListener('click', function () {
+                var audio = document.getElementById('bgMusic');
+                audio.volume = 0.15;
+                audio.play();
+
+                clickToEnterOverlay.classList.add('fade-out');
+
+                setTimeout(function () {
+                    clickToEnterOverlay.classList.add('hidden');
+                    container.classList.add('show');
+                    volumeButton.style.display = 'block'; 
+                }, 1000);
+            });
+
+            setupVolumeButton();
+        };
     </script>
 
     <script src="/assets/js/cur-snow.js"></script>
