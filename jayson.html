@@ -221,7 +221,7 @@
     
     <div style="display: none;" id="curEffClr">#ffffff</div>
 
-    <script>
+   <script>
 document.addEventListener('click', function() {
     var audio = document.getElementById('bgMusic');
     audio.volume = 0.15;
@@ -243,22 +243,22 @@ document.addEventListener('click', function() {
     }, 1000); 
 });
 
-         var isMuted = false; 
-        var volumeButton = document.getElementById('volumeButton');
-        volumeButton.addEventListener('click', function (event) {
-            event.stopPropagation(); 
+var isMuted = false; 
+var volumeButton = document.getElementById('volumeButton');
 
-            var audio = document.getElementById('bgMusic');
-            if (isMuted) {
-                audio.muted = false;
-                isMuted = false;
-            } else {
-                audio.muted = true;
-                isMuted = true;
-            }
-        });
-        };
-    </script>
+volumeButton.addEventListener('click', function (event) {
+    event.stopPropagation();  
+
+    var audio = document.getElementById('bgMusic');
+    if (isMuted) {
+        audio.muted = false;
+        isMuted = false;
+    } else {
+        audio.muted = true;
+        isMuted = true;
+    }
+});
+</script>
 
     <script src="/assets/js/cur-snow.js"></script>
 </body>
