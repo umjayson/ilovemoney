@@ -222,24 +222,26 @@
     <div style="display: none;" id="curEffClr">#ffffff</div>
 
     <script>
-        document.addEventListener('click', function() {
-            var audio = document.getElementById('bgMusic');
-            audio.volume = 0.15;
-            audio.play();
-            
-            var clickToEnterOverlay = document.getElementById('clickToEnterOverlay');
-            var body = document.querySelector('body');
-            var container = document.querySelector('.container');
-            var background = document.querySelector('.background');
+document.addEventListener('click', function() {
+    var audio = document.getElementById('bgMusic');
+    audio.volume = 0.15;
+    audio.play();
+    
+    var clickToEnterOverlay = document.getElementById('clickToEnterOverlay');
+    var body = document.querySelector('body');
+    var container = document.querySelector('.container');
+    var background = document.querySelector('.background');
+    var volumeButton = document.getElementById('volumeButton'); 
 
-            clickToEnterOverlay.classList.add('fade-out');
-            body.classList.remove('blurred');
-            
-            setTimeout(function() {
-                clickToEnterOverlay.classList.add('hidden');
-                container.classList.add('show');
-            }, 1000); 
-        });
+    clickToEnterOverlay.classList.add('fade-out');
+    body.classList.remove('blurred');
+    
+    setTimeout(function() {
+        clickToEnterOverlay.classList.add('hidden');
+        container.classList.add('show');
+        volumeButton.style.display = 'block'; 
+    }, 1000); 
+});
 
          var isMuted = false; 
         var volumeButton = document.getElementById('volumeButton');
@@ -259,7 +261,7 @@
 function getProfileViews() {
             let views = localStorage.getItem('profileViews');
             if (!views) {
-                views = 6238; // Initial view count
+                views = 6238; 
                 localStorage.setItem('profileViews', views);
             }
             return parseInt(views);
@@ -279,7 +281,6 @@ function getProfileViews() {
             return false;
         }
 
-        // Volume button functionality
         function setupVolumeButton() {
             var isMuted = false;
             var volumeButton = document.getElementById('volumeButton');
@@ -305,22 +306,6 @@ function getProfileViews() {
             } else {
                 document.getElementById('profileViews').innerText = views.toLocaleString();
             }
-            var clickToEnterOverlay = document.getElementById('clickToEnterOverlay');
-            var container = document.querySelector('.container');
-            var volumeButton = document.getElementById('volumeButton');
-
-            document.addEventListener('click', function () {
-                var audio = document.getElementById('bgMusic');
-                audio.volume = 0.15;
-                audio.play();
-
-                clickToEnterOverlay.classList.add('fade-out');
-
-                setTimeout(function () {
-                    clickToEnterOverlay.classList.add('hidden');
-                    container.classList.add('show');
-                    volumeButton.style.display = 'block'; 
-                }, 1000);
             });
 
             setupVolumeButton();
