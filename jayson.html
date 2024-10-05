@@ -257,58 +257,6 @@ document.addEventListener('click', function() {
                 isMuted = true;
             }
         });
-
-function getProfileViews() {
-            let views = localStorage.getItem('profileViews');
-            if (!views) {
-                views = 6238; 
-                localStorage.setItem('profileViews', views);
-            }
-            return parseInt(views);
-        }
-
-        function setProfileViews(views) {
-            localStorage.setItem('profileViews', views);
-            document.getElementById('profileViews').innerText = views.toLocaleString();
-        }
-
-        function isUniqueVisitor() {
-            const visited = localStorage.getItem('visited');
-            if (!visited) {
-                localStorage.setItem('visited', 'true');
-                return true;
-            }
-            return false;
-        }
-
-        function setupVolumeButton() {
-            var isMuted = false;
-            var volumeButton = document.getElementById('volumeButton');
-            var audio = document.getElementById('bgMusic');
-
-            volumeButton.addEventListener('click', function (event) {
-                event.stopPropagation();
-                if (isMuted) {
-                    audio.muted = false;
-                    isMuted = false;
-                } else {
-                    audio.muted = true;
-                    isMuted = true;
-                }
-            });
-        }
-
-        window.onload = function () {
-            let views = getProfileViews();
-            if (isUniqueVisitor()) {
-                views++;
-                setProfileViews(views);
-            } else {
-                document.getElementById('profileViews').innerText = views.toLocaleString();
-            }
-            });
-
-            setupVolumeButton();
         };
     </script>
 
