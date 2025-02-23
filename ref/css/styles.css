@@ -103,7 +103,7 @@ body {
     left: 0;
     width: 150px;
     height: 150px;
-    background: url('https://cdn.discordapp.com/avatar-decoration-presets/a_c86b11a49bb8057ce9c974a6f7ad658a.png?size=32&passthrough=true') no-repeat center center;
+    background: url('https://cdn.discordapp.com/avatar-decoration-presets/a_c3cffc19e9784f7d0b005eecdf1b566e.png?size=128&passthrough=false') no-repeat center center;
     background-size: contain;
     z-index: 2;
     transform: translate(-50%, -50%);
