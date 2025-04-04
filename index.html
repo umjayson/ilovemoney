@@ -53,13 +53,14 @@
     }
 
     .blurred-box {
-      transform: translateY(100vh);
-      opacity: 0;
-      transition: transform 0.6s ease, opacity 0.6s ease;
+      /* Add a perspective to make rotations pop a bit more */
+      transform: translateY(100vh) perspective(800px) rotateX(0) rotateY(0);
       transform-style: preserve-3d;
+      opacity: 0;
+      transition: opacity 0.6s ease, transform 0.6s ease;
     }
     .blurred-box.fade-in {
-      transform: translateY(0);
+      transform: translateY(0) perspective(800px) rotateX(0) rotateY(0);
       opacity: 1;
     }
 
@@ -75,10 +76,6 @@
       letter-spacing: 2px;
       animation: blink-caret 0.75s step-end infinite;
       transition: opacity 1s ease;
-    }
-    @keyframes typing {
-      from { width: 0; }
-      to   { width: 100%; }
     }
     @keyframes blink-caret {
       from, to { border-color: transparent; }
@@ -266,9 +263,7 @@
 
       setTimeout(() => {
         overlay.classList.add('fade-out');
-
         blurredBox.classList.add('fade-in');
-
         volumeControl.style.display = 'block';
       }, 500);
 
@@ -323,6 +318,7 @@
       }
     });
 
+    // Dynamic typing
     const phrases = [
       "@@",
       "the world is yours",
@@ -359,35 +355,54 @@
       typePhrase();
     });
 
+    /**********************************************
+     *  IMPROVED, SMOOTH TILT LOGIC
+     **********************************************/
+    let currentRotationX = 0;
+    let currentRotationY = 0;
+    let targetRotationX = 0;
+    let targetRotationY = 0;
+
+    // How "fast" or "snappy" the tilt moves (0.1 = slower, 0.2 = faster)
+    const easing = 0.1;
+    // Maximum rotation (in degrees) from the center
+    const maxRotation = 15;
+
+    // Animate via requestAnimationFrame
+    function animateTilt() {
+      // Interpolate/lerp current rotation toward target rotation
+      currentRotationX += (targetRotationX - currentRotationX) * easing;
+      currentRotationY += (targetRotationY - currentRotationY) * easing;
+
+      // Apply the transform
+      blurredBox.style.transform = `translateY(0) perspective(800px) rotateX(${currentRotationX}deg) rotateY(${currentRotationY}deg)`;
+
+      requestAnimationFrame(animateTilt);
+    }
+
     blurredBox.addEventListener('mousemove', (e) => {
       const rect = blurredBox.getBoundingClientRect();
-      const x    = e.clientX - rect.left;
-      const y    = e.clientY - rect.top;
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
 
-      const zoneX = x / rect.width;
-      const zoneY = y / rect.height;
+      // Calculate range [-1..1] for both x and y relative to center
+      const halfWidth = rect.width / 2;
+      const halfHeight = rect.height / 2;
+      const rotateY = ((x - halfWidth) / halfWidth) * maxRotation; // left/right
+      const rotateX = ((y - halfHeight) / halfHeight) * -maxRotation; // up/down (negative for correct orientation)
 
-      let rotateX = 0; 
-      let rotateY = 0; 
-
-      if (zoneX < 0.33) {
-        rotateY = 15;  
-      } else if (zoneX > 0.66) {
-        rotateY = -15;  
-      }
-
-      if (zoneY < 0.33) {
-        rotateX = 15;
-      } else if (zoneY > 0.66) {
-        rotateX = -15;  
-      }
-
-      blurredBox.style.transform = `translateY(0) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+      targetRotationX = rotateX;
+      targetRotationY = rotateY;
     });
 
     blurredBox.addEventListener('mouseleave', () => {
-      blurredBox.style.transform = 'translateY(0) rotateX(0) rotateY(0)';
+      // Return to 0 rotation smoothly
+      targetRotationX = 0;
+      targetRotationY = 0;
     });
+
+    // Start the animation loop
+    animateTilt();
   </script>
 </body>
 </html>
