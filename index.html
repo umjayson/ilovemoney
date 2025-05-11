@@ -22,9 +22,9 @@
   />
   
   <style>
-    /* ---------------------------------------
-       BASE & TRANSITIONS
-    -----------------------------------------*/
+    /************************************************
+     * RESET / BASE
+     ***********************************************/
     * {
       margin: 0;
       padding: 0;
@@ -34,36 +34,40 @@
     body {
       margin: 0;
       padding: 0;
-      overflow: hidden; /* remove scrollbars initially */
-      height: 100vh;
+      /* Allow normal scrolling: */
+      overflow-x: hidden; 
+      /* no max-height or forced hidden, so you can scroll freely */
       background-color: black;
       font-family: Arial, sans-serif;
     }
 
-    /* ---------------------------------------
-       BACKGROUND
-       - Start with a static background image
-       - When user clicks, we switch .unblurred
-    -----------------------------------------*/
+    /************************************************
+     * BACKGROUND
+     * - Start as a static image
+     * - Switch to GIF after user clicks
+     * - Keep it fixed so it "follows" the user 
+       (the content will scroll over it)
+     ***********************************************/
     .background {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
-      background-image: url('ref/misc/STATIC_IMAGE.png'); /* <-- Use a static or blank image initially */
+      background-image: url('ref/misc/STATIC_IMAGE.png');
+      background-repeat: no-repeat;
       background-size: cover;
       background-position: center;
       filter: blur(8px);
       transition: filter 1.5s ease, background-image 0.5s ease;
-      z-index: 0;
+      z-index: -1; /* keep it behind everything */
     }
     .unblurred {
       filter: blur(0);
-      /* Switch to the actual GIF when unblurred */
+      /* Switch to the GIF here */
       background-image: url('ref/misc/MyCarGif.gif');
     }
 
-    /* ---------------------------------------
-       OVERLAY
-    -----------------------------------------*/
+    /************************************************
+     * OVERLAY
+     ***********************************************/
     .overlay {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
@@ -86,30 +90,35 @@
       font-size: 32px;
       font-weight: bold;
       text-align: center;
-      text-shadow: 0 0 5px rgba(255, 255, 255, 0.6),
-                   0 0 10px rgba(255, 255, 255, 0.6),
-                   0 0 15px rgba(255, 255, 255, 0.6),
-                   0 0 20px rgba(255, 255, 255, 0.6);
-      opacity: 1;
+      pointer-events: none; /* so clicking anywhere on overlay triggers the event */
+      text-shadow:
+        0 0 5px rgba(255, 255, 255, 0.6),
+        0 0 10px rgba(255, 255, 255, 0.6),
+        0 0 15px rgba(255, 255, 255, 0.6),
+        0 0 20px rgba(255, 255, 255, 0.6);
       transition: opacity 1s ease;
-      pointer-events: none; /* so clicking anywhere works */
     }
     .hide-proceed {
       opacity: 0;
       pointer-events: none;
     }
 
-    /* ---------------------------------------
-       MAIN BOX
-    -----------------------------------------*/
+    /************************************************
+     * MAIN (TOP) PROFILE BOX
+     ***********************************************/
+    .top-section {
+      /* Create some spacing so you can scroll below: */
+      min-height: 100vh; 
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      /* relative so child .blurred-box can animate within it if needed */
+      position: relative;
+    }
+
     .blurred-box {
-      position: absolute;
-      top: 50%;
-      left: 50%;
       width: 600px;
       height: 400px;
-      transform: translate(-50%, -50%) perspective(800px) rotateX(0) rotateY(0);
-      transform-style: preserve-3d;
       background: rgba(255, 255, 255, 0.075);
       backdrop-filter: blur(10px);
       border-radius: 15px;
@@ -119,13 +128,18 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
+
+      /* Start transparent/offscreen or scaled? 
+         We'll fade it in with an 'fade-in' class. */
       opacity: 0;
+      transform: translateY(100vh) perspective(800px) rotateX(0) rotateY(0);
+      transform-style: preserve-3d;
       transition: opacity 0.6s ease, transform 0.6s ease;
       z-index: 5;
     }
     .blurred-box.fade-in {
       opacity: 1;
-      transform: translate(-50%, -50%) perspective(800px) rotateX(0) rotateY(0);
+      transform: translateY(0) perspective(800px) rotateX(0) rotateY(0);
     }
 
     .profile-wrapper {
@@ -166,10 +180,11 @@
       color: white;
       text-align: center;
       margin-top: -12px;
-      text-shadow: 0 0 5px rgba(255, 255, 255, 0.6),
-                   0 0 10px rgba(255, 255, 255, 0.6),
-                   0 0 15px rgba(255, 255, 255, 0.6),
-                   0 0 20px rgba(255, 255, 255, 0.6);
+      text-shadow:
+        0 0 5px rgba(255, 255, 255, 0.6),
+        0 0 10px rgba(255, 255, 255, 0.6),
+        0 0 15px rgba(255, 255, 255, 0.6),
+        0 0 20px rgba(255, 255, 255, 0.6);
     }
 
     .showcase {
@@ -234,7 +249,9 @@
       transform: scale(1.1);
     }
 
-    /* DYNAMIC TYPING */
+    /************************************************
+     * DYNAMIC TYPING
+     ***********************************************/
     .static-text {
       font-size: 1.5rem;
       color: white;
@@ -258,9 +275,9 @@
       }
     }
 
-    /* ---------------------------------------
-       VOLUME CONTROL
-    -----------------------------------------*/
+    /************************************************
+     * VOLUME CONTROL
+     ***********************************************/
     .volume-control-blurred {
       position: fixed;
       top: 20px;
@@ -304,17 +321,15 @@
       transform-origin: left center;
       pointer-events: none;
       transition: transform 0.3s ease, opacity 0.3s ease;
+      appearance: none;
+      outline: none;
+      cursor: pointer;
+      background: transparent;
     }
     .volume-control-blurred:hover .volume-slider {
       transform: scaleX(1);
       opacity: 1;
       pointer-events: auto;
-    }
-    .volume-slider {
-      appearance: none;
-      outline: none;
-      cursor: pointer;
-      background: transparent;
     }
     .volume-slider::-webkit-slider-runnable-track,
     .volume-slider::-moz-range-track {
@@ -333,15 +348,14 @@
       cursor: pointer;
     }
 
-    /* ---------------------------------------
-       NAV BUTTONS (MAIN, INFO, ABOUT)
-       - Shown after user enters
-    -----------------------------------------*/
+    /************************************************
+     * NAV BUTTONS: MAIN, INFO, ABOUT
+     ***********************************************/
     .nav-buttons {
       position: fixed;
       top: 80px;
       right: 20px;
-      display: none; /* Hidden initially, shown on click */
+      display: none; /* show after user "enters" */
       flex-direction: column;
       gap: 10px;
       z-index: 50;
@@ -361,38 +375,34 @@
       background: rgba(255, 255, 255, 0.15);
     }
 
-    /* ---------------------------------------
-       SCROLLABLE SECTIONS FOR INFO / ABOUT
-       - We'll re-enable body scrolling once
-         user has entered
-    -----------------------------------------*/
+    /************************************************
+     * ADDITIONAL CONTENT SECTIONS
+     ***********************************************/
     .content-sections {
-      position: relative;
-      width: 100%;
-      height: auto;
-      margin-top: 100vh; /* push content out of initial view if desired */
-      background: #222;
+      /* No big margin-top needed 
+         so it continues right after top-section: */
+      background: transparent; /* let background show behind */
       color: white;
-      overflow-y: auto;
     }
     .section {
       min-height: 100vh;
       padding: 40px;
-    }
-    #main {
-      background: #333;
+      /* We can do a slight backdrop for text readability */
+      background: rgba(0, 0, 0, 0.25);
     }
     #info {
-      background: #444;
+      /* Just a different color or background */
+      background: rgba(0, 0, 0, 0.45);
     }
     #about {
-      background: #555;
+      /* Another color or background */
+      background: rgba(0, 0, 0, 0.65);
     }
     h2 {
       margin-bottom: 20px;
     }
 
-    /* For the Discord server info box */
+    /* Discord server info box */
     .server-info {
       display: flex;
       align-items: center;
@@ -422,7 +432,7 @@
 </head>
 <body>
 
-  <!-- Background (static at first, replaced with GIF on click) -->
+  <!-- Background -->
   <div class="background" id="bg"></div>
 
   <!-- Overlay (click to enter) -->
@@ -430,42 +440,44 @@
     <div class="proceed-button" id="proceedButton">click</div>
   </div>
 
-  <!-- Main Box (Profile) -->
-  <div class="blurred-box" id="mainBox">
-    <div class="profile-wrapper">
-      <div class="profile-decoration"></div>
-      <div class="profile-picture"></div>
-    </div>
-    <div class="profile-name">jayson</div>
-    <div class="showcase">
-      <div class="badge">
-        <i class="fa-solid fa-car"></i>
-        <span class="tooltip">C8 Corvette</span>
+  <!-- TOP SECTION (Main) -->
+  <div class="top-section" id="top">
+    <!-- Blurred box (the profile) -->
+    <div class="blurred-box" id="mainBox">
+      <div class="profile-wrapper">
+        <div class="profile-decoration"></div>
+        <div class="profile-picture"></div>
       </div>
-      <div class="badge">
-        <i class="fa-solid fa-wallet"></i>
-        <span class="tooltip">Rich</span>
+      <div class="profile-name">jayson</div>
+      <div class="showcase">
+        <div class="badge">
+          <i class="fa-solid fa-car"></i>
+          <span class="tooltip">C8 Corvette</span>
+        </div>
+        <div class="badge">
+          <i class="fa-solid fa-wallet"></i>
+          <span class="tooltip">Rich</span>
+        </div>
+        <div class="badge">
+          <i class="fa-solid fa-star" style="color: white;"></i>
+          <span class="tooltip">Certified</span>
+        </div>
       </div>
-      <div class="badge">
-        <i class="fa-solid fa-star" style="color: white;"></i>
-        <span class="tooltip">Certified</span>
+      <div class="static-text" id="dynamic-text"></div>
+      <div class="icon-wrapper">
+        <a href="https://www.roblox.com/users/3290769146/profile" 
+           class="icon-button" target="_blank">
+          <i class="fas fa-globe"></i>
+        </a>
+        <a href="https://discord.gg/loser" 
+           class="icon-button" target="_blank">
+          <i class="fab fa-discord"></i>
+        </a>
+        <a href="https://www.tiktok.com/@umjayson"
+           class="icon-button" target="_blank">
+          <i class="fab fa-tiktok"></i>
+        </a>
       </div>
-    </div>
-    <div class="static-text" id="dynamic-text"></div>
-    <div class="icon-wrapper">
-      <a
-        href="https://www.roblox.com/users/3290769146/profile"
-        class="icon-button"
-        target="_blank"
-      >
-        <i class="fas fa-globe"></i>
-      </a>
-      <a href="https://discord.gg/loser" class="icon-button" target="_blank">
-        <i class="fab fa-discord"></i>
-      </a>
-      <a href="https://www.tiktok.com/@umjayson" class="icon-button" target="_blank">
-        <i class="fab fa-tiktok"></i>
-      </a>
     </div>
   </div>
 
@@ -487,17 +499,14 @@
 
   <!-- Navigation Buttons (Show after entering) -->
   <div class="nav-buttons" id="navButtons">
-    <div class="nav-button" onclick="scrollToSection('main')">Main</div>
+    <!-- “Main” scrolls up to top (where your blurred box is) -->
+    <div class="nav-button" onclick="scrollToSection('top')">Main</div>
     <div class="nav-button" onclick="scrollToSection('info')">Info</div>
     <div class="nav-button" onclick="scrollToSection('about')">About</div>
   </div>
 
-  <!-- Scrollable Content Sections -->
-  <div class="content-sections" id="contentSections">
-    <div class="section" id="main">
-      <h2>Main Section</h2>
-      <p>This is your main landing area. Scroll up or click “Main” to come back here.</p>
-    </div>
+  <!-- Additional Scrollable Content -->
+  <div class="content-sections">
     <div class="section" id="info">
       <h2>Information</h2>
       <p>Here is the Discord server info. (Demo fetch or placeholders below.)</p>
@@ -516,20 +525,19 @@
     </div>
   </div>
 
-  <!-- Your Main Script Block -->
+  <!-- SCRIPTS -->
   <script>
-    let hasClicked = false;
-    let isMuted = false;
-    let lastVolume = 0.5;
+    let hasClicked    = false;
+    let isMuted       = false;
+    let lastVolume    = 0.5;
     let audio1, audio2;
 
-    const overlay         = document.getElementById('overlay');
-    const proceedButton   = document.getElementById('proceedButton');
-    const background      = document.getElementById('bg');
-    const blurredBox      = document.getElementById('mainBox');
-    const volumeControl   = document.getElementById('volumeControl');
-    const navButtons      = document.getElementById('navButtons');
-    const contentSections = document.getElementById('contentSections');
+    const overlay      = document.getElementById('overlay');
+    const proceedButton= document.getElementById('proceedButton');
+    const background   = document.getElementById('bg');
+    const blurredBox   = document.getElementById('mainBox');
+    const volumeControl= document.getElementById('volumeControl');
+    const navButtons   = document.getElementById('navButtons');
 
     function handleEnter() {
       if (hasClicked) return;
@@ -537,18 +545,18 @@
 
       // Hide the overlay text
       proceedButton.classList.add('hide-proceed');
-      // Unblur the background and switch it to the GIF
+      // Switch background to GIF
       background.classList.add('unblurred');
 
-      // Fade out the overlay
+      // Fade out the overlay, fade in main box
       setTimeout(() => {
         overlay.classList.add('fade-out');
         blurredBox.classList.add('fade-in');
         volumeControl.style.display = 'block';
         navButtons.style.display = 'flex';
 
-        // Re-enable body scroll:
-        document.body.style.overflow = 'auto';
+        // Allow vertical scrolling
+        document.body.style.overflowY = 'auto';
       }, 500);
 
       playAudioSequence();
@@ -559,7 +567,7 @@
       audio2 = new Audio('ref/misc/end1.mp3');
       audio1.volume = 0.5;
       audio2.volume = 0.5;
-      audio2.loop = true;
+      audio2.loop   = true;
       audio1.play();
       audio1.addEventListener('ended', () => {
         audio2.play();
@@ -574,14 +582,14 @@
       if (!isMuted) {
         lastVolume = parseFloat(volumeSlider.value);
         volumeSlider.value = 0;
-        if (audio1) audio1.volume = 0;
-        if (audio2) audio2.volume = 0;
+        if(audio1) audio1.volume = 0;
+        if(audio2) audio2.volume = 0;
         isMuted = true;
         volumeButton.classList.replace('fa-volume-up', 'fa-volume-mute');
       } else {
         volumeSlider.value = lastVolume.toString();
-        if (audio1) audio1.volume = lastVolume;
-        if (audio2) audio2.volume = lastVolume;
+        if(audio1) audio1.volume = lastVolume;
+        if(audio2) audio2.volume = lastVolume;
         isMuted = false;
         volumeButton.classList.replace('fa-volume-mute', 'fa-volume-up');
       }
@@ -589,7 +597,7 @@
 
     volumeSlider.addEventListener('input', (e) => {
       const volume = parseFloat(e.target.value);
-      if (audio1 && audio2) {
+      if(audio1 && audio2) {
         audio1.volume = volume;
         audio2.volume = volume;
       }
@@ -603,17 +611,17 @@
       }
     });
 
-    // Dynamic typing
+    // Dynamic Typing
     const phrases = [
       "@@",
       "the world is yours",
       "join discord.gg/loser"
     ];
     let phraseIndex = 0;
-    let charIndex = 0;
-    const typingSpeed = 100;
+    let charIndex   = 0;
+    const typingSpeed         = 100;
     const pauseBetweenPhrases = 2000;
-    const dynamicTextElement = document.getElementById('dynamic-text');
+    const dynamicTextElement  = document.getElementById('dynamic-text');
 
     function typePhrase() {
       if (charIndex < phrases[phraseIndex].length) {
@@ -634,24 +642,25 @@
         setTimeout(typePhrase, typingSpeed);
       }
     }
+
     document.addEventListener('DOMContentLoaded', () => {
       typePhrase();
       fetchDiscordInfo();
     });
 
-    // Smooth tilt logic for the .blurred-box
+    // Smooth tilt logic for the blurred box
     let currentRotationX = 0;
     let currentRotationY = 0;
-    let targetRotationX = 0;
-    let targetRotationY = 0;
-    const easing = 0.1;
-    const maxRotation = 15;
+    let targetRotationX  = 0;
+    let targetRotationY  = 0;
+    const easing         = 0.1;
+    const maxRotation    = 15;
 
     function animateTilt() {
       currentRotationX += (targetRotationX - currentRotationX) * easing;
       currentRotationY += (targetRotationY - currentRotationY) * easing;
       blurredBox.style.transform = `
-        translate(-50%, -50%)
+        translateY(0)
         perspective(800px)
         rotateX(${currentRotationX}deg)
         rotateY(${currentRotationY}deg)
@@ -662,12 +671,13 @@
       const rect = blurredBox.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
-      const halfWidth = rect.width / 2;
+
+      const halfWidth  = rect.width / 2;
       const halfHeight = rect.height / 2;
-      const rotateY = ((x - halfWidth) / halfWidth) * maxRotation; // left/right
-      const rotateX = ((y - halfHeight) / halfHeight) * -maxRotation; // up/down
-      targetRotationX = rotateX;
-      targetRotationY = rotateY;
+      const rotateY    = ((x - halfWidth) / halfWidth) * maxRotation; // left/right
+      const rotateX    = ((y - halfHeight) / halfHeight) * -maxRotation; // up/down
+      targetRotationX  = rotateX;
+      targetRotationY  = rotateY;
     });
     blurredBox.addEventListener('mouseleave', () => {
       targetRotationX = 0;
@@ -675,16 +685,16 @@
     });
     animateTilt();
 
-    // NAV BUTTONS SCROLL
+    // Nav Buttons Scroll
     function scrollToSection(sectionId) {
       const section = document.getElementById(sectionId);
       if (!section) return;
       section.scrollIntoView({ behavior: 'smooth' });
     }
 
-    // EXAMPLE: Fetch Discord Server Info (requires server widget enabled)
+    // Fetch Discord Server Info (requires server widget enabled)
     function fetchDiscordInfo() {
-      const serverId = '1258478869405503668'; // Replace with your real server ID
+      const serverId      = '1258478869405503668'; // Replace with real server ID
       const serverInfoUrl = `https://discord.com/api/guilds/${serverId}/widget.json`;
 
       fetch(serverInfoUrl)
@@ -699,7 +709,6 @@
         })
         .catch(err => {
           console.error('Could not fetch Discord server info:', err);
-          // Fallback or do nothing
         });
     }
   </script>
