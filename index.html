@@ -5,9 +5,16 @@
   <meta name="viewport" content="width=device-width,initial-scale=1.0" />
   <meta property="og:title" content="@jayson - 🤷‍♂️" />
   <meta property="og:description" content="the world is yours" />
-  <meta property="og:image" content="https://ilovemoney.lol/ref/misc//IMG_9240.png" />
+  <meta property="og:image" content="https://ilovemoney.lol/ref/misc/IMG_9240.png" />
   <meta property="og:url" content="https://ilovemoney.lol/" />
   <meta property="theme-color" content="#1b1b1b" />
+  
+  <!-- External Scripts (Disable DevTools, etc.) -->
+  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+  <!-- <script src="ref/js/sexymouse.js"></script>
+       <script src="ref/js/bettersnow.js"></script>
+       <script src="ref/js/ZOOOOOOOOM.js"></script> -->
+  
   <title>@jayson</title>
   <link rel="icon" href="ref/misc/logo.png" type="image/x-icon">
   <link
@@ -41,7 +48,7 @@
     .background {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
-      background-image: url('ref/misc/STATIC_IMAGE.png'); /* <-- Use a static image or blank initially */
+      background-image: url('ref/misc/STATIC_IMAGE.png'); /* <-- Use a static or blank image initially */
       background-size: cover;
       background-position: center;
       filter: blur(8px);
@@ -363,7 +370,7 @@
       position: relative;
       width: 100%;
       height: auto;
-      margin-top: 100vh; /* push content out of initial view if you want to remain hidden behind box */
+      margin-top: 100vh; /* push content out of initial view if desired */
       background: #222;
       color: white;
       overflow-y: auto;
@@ -509,24 +516,19 @@
     </div>
   </div>
 
-  <!-- Scripts -->
+  <!-- Your Main Script Block -->
   <script>
-    <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
-    // <script src="ref/js/sexymouse.js"></script>
-    // <script src="ref/js/bettersnow.js"></script>
-    // <script src="ref/js/ZOOOOOOOOM.js"></script>
-
     let hasClicked = false;
     let isMuted = false;
     let lastVolume = 0.5;
     let audio1, audio2;
 
-    const overlay       = document.getElementById('overlay');
-    const proceedButton = document.getElementById('proceedButton');
-    const background    = document.getElementById('bg');
-    const blurredBox    = document.getElementById('mainBox');
-    const volumeControl = document.getElementById('volumeControl');
-    const navButtons    = document.getElementById('navButtons');
+    const overlay         = document.getElementById('overlay');
+    const proceedButton   = document.getElementById('proceedButton');
+    const background      = document.getElementById('bg');
+    const blurredBox      = document.getElementById('mainBox');
+    const volumeControl   = document.getElementById('volumeControl');
+    const navButtons      = document.getElementById('navButtons');
     const contentSections = document.getElementById('contentSections');
 
     function handleEnter() {
@@ -572,14 +574,14 @@
       if (!isMuted) {
         lastVolume = parseFloat(volumeSlider.value);
         volumeSlider.value = 0;
-        if(audio1) audio1.volume = 0;
-        if(audio2) audio2.volume = 0;
+        if (audio1) audio1.volume = 0;
+        if (audio2) audio2.volume = 0;
         isMuted = true;
         volumeButton.classList.replace('fa-volume-up', 'fa-volume-mute');
       } else {
         volumeSlider.value = lastVolume.toString();
-        if(audio1) audio1.volume = lastVolume;
-        if(audio2) audio2.volume = lastVolume;
+        if (audio1) audio1.volume = lastVolume;
+        if (audio2) audio2.volume = lastVolume;
         isMuted = false;
         volumeButton.classList.replace('fa-volume-mute', 'fa-volume-up');
       }
@@ -682,14 +684,12 @@
 
     // EXAMPLE: Fetch Discord Server Info (requires server widget enabled)
     function fetchDiscordInfo() {
-      const serverId = '1258478869405503668'; // Replace with real ID
+      const serverId = '1258478869405503668'; // Replace with your real server ID
       const serverInfoUrl = `https://discord.com/api/guilds/${serverId}/widget.json`;
 
-      // If your server has the widget enabled, you can fetch real data:
       fetch(serverInfoUrl)
         .then(res => res.json())
         .then(data => {
-          // e.g. data.name, data.instant_invite, data.presence_count, data.icon_url
           document.getElementById('serverName').textContent = data.name || 'Discord Server';
           document.getElementById('memberCount').textContent = 'Members: ' + (data.presence_count || '???');
           document.getElementById('serverIcon').src = data.icon_url || '';
@@ -703,6 +703,5 @@
         });
     }
   </script>
-
 </body>
 </html>
