@@ -478,6 +478,7 @@
       // Switch background to GIF
       background.classList.add('unblurred');
 
+      // Fade out overlay and fade in main box
       setTimeout(() => {
         overlay.classList.add('fade-out');
         blurredBox.classList.add('fade-in');
@@ -485,6 +486,7 @@
         navButtons.style.display = 'flex';
       }, 500);
 
+      // Play intro audio
       playAudioSequence();
     }
 
@@ -500,7 +502,7 @@
       });
     }
 
-    // Volume
+    // Volume controls
     const volumeButton = document.getElementById('volumeButton');
     const volumeSlider = document.getElementById('volumeSlider');
     volumeButton.addEventListener('click', () => {
@@ -561,13 +563,12 @@
         setTimeout(typePhrase, typingSpeed);
       }
     }
-
     document.addEventListener('DOMContentLoaded', () => {
       typePhrase();
       fetchDiscordInfo();
     });
 
-    // Smooth tilt
+    // Smooth tilt logic
     let currentRotationX = 0;
     let currentRotationY = 0;
     let targetRotationX = 0;
@@ -601,14 +602,14 @@
     });
     animateTilt();
 
-    // Scroll
+    // Smooth scrolling to sections
     function scrollToSection(id) {
       const section = document.getElementById(id);
       if (!section) return;
       section.scrollIntoView({ behavior: 'smooth' });
     }
 
-    // Discord Info
+    // Discord Info (Widget)
     function fetchDiscordInfo() {
       const serverId = '1258478869405503668'; // your real server ID
       const url = `https://discord.com/api/guilds/${serverId}/widget.json`;
