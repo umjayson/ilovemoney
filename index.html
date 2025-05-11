@@ -25,35 +25,40 @@
     /************************************************
      * RESET / BASE
      ***********************************************/
+    html, body {
+      margin: 0;
+      padding: 0;
+      /* Hide horizontal scroll if something overshoots */
+      overflow-x: hidden;
+      font-family: Arial, sans-serif;
+      background-color: black;
+    }
+    body {
+      /* We'll allow vertical scrolling for the sections */
+      overflow-y: auto;
+    }
     * {
-      margin: 0; padding: 0;
       box-sizing: border-box;
       user-select: none;
     }
-    body {
-      font-family: Arial, sans-serif;
-      background-color: black;
-      overflow-x: hidden; /* allow vertical scroll only */
-      /* We'll rely on sections to create vertical scrolling. */
-    }
 
     /************************************************
-     * BACKGROUND (fixed)
+     * BACKGROUND (fixed behind everything)
      ***********************************************/
     .background {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
-      background-image: url('ref/misc/STATIC_IMAGE.png'); /* static or blank initially */
+      background-image: url('ref/misc/STATIC_IMAGE.png');
       background-repeat: no-repeat;
-      background-size: cover;
       background-position: center;
+      background-size: cover;
       filter: blur(8px);
       transition: filter 1.5s ease, background-image 0.5s ease;
-      z-index: -1; /* behind all content */
+      z-index: -1;
     }
-    .unblurred {
+    .background.unblurred {
       filter: blur(0);
-      background-image: url('ref/misc/MyCarGif.gif'); /* your GIF after click */
+      background-image: url('ref/misc/MyCarGif.gif');
     }
 
     /************************************************
@@ -65,11 +70,10 @@
       display: flex; justify-content: center; align-items: center;
       background: rgba(0, 0, 0, 0.5);
       z-index: 10;
-      opacity: 1;
-      transition: opacity 1s ease;
       cursor: pointer;
+      transition: opacity 1s ease;
     }
-    .fade-out {
+    .overlay.fade-out {
       opacity: 0;
       visibility: hidden;
     }
@@ -78,17 +82,16 @@
       font-size: 32px;
       font-weight: bold;
       text-align: center;
-      text-shadow:
+      text-shadow: 
         0 0 5px rgba(255, 255, 255, 0.6),
         0 0 10px rgba(255, 255, 255, 0.6),
         0 0 15px rgba(255, 255, 255, 0.6),
         0 0 20px rgba(255, 255, 255, 0.6);
-      transition: opacity 1s ease;
-      pointer-events: none; /* overlay click triggers handleEnter */
-    }
-    .hide-proceed {
-      opacity: 0;
       pointer-events: none;
+      transition: opacity 1s ease;
+    }
+    .proceed-button.hide-proceed {
+      opacity: 0;
     }
 
     /************************************************
@@ -96,8 +99,9 @@
      ***********************************************/
     .nav-buttons {
       position: fixed;
-      top: 80px; right: 20px;
-      display: none; /* Show after user enters */
+      top: 80px;
+      right: 20px;
+      display: none; /* show after user enters */
       flex-direction: column;
       gap: 10px;
       z-index: 50;
@@ -118,21 +122,25 @@
     }
 
     /************************************************
-     * SECTIONS: Main, Info, About
+     * SECTION LAYOUT (Main, Info, About)
      ***********************************************/
     section {
       min-height: 100vh; 
-      display: flex;
-      align-items: center;
+      display: flex; 
+      align-items: center; 
       justify-content: center;
       position: relative;
-      /* Let the background show through */
-      background: transparent;
+      background: transparent; /* show background behind */
+      padding: 0 1rem; /* small side padding on mobile */
     }
 
-    /* MAIN (TOP) SECTION => The blurred box */
-    #main .blurred-box {
+    /************************************************
+     * BLURRED BOX (MAIN)
+     * Use max-width + width: 100% to be responsive
+     ***********************************************/
+    .blurred-box {
       width: 600px;
+      max-width: 100%; /* so it doesn't overflow small screens */
       height: 400px;
       background: rgba(255, 255, 255, 0.075);
       backdrop-filter: blur(10px);
@@ -159,16 +167,13 @@
       position: relative;
       width: 150px; height: 150px;
       display: flex; justify-content: center; align-items: center;
-      margin-bottom: 0;
-      margin-top: -160px;
+      margin-top: -160px; /* position the decoration behind? */
     }
     .profile-picture {
       width: 120px; height: 120px;
       border-radius: 50%;
-      background: url('ref/misc/IMG_9240.png') no-repeat center center;
-      background-size: cover;
+      background: url('ref/misc/IMG_9240.png') center/cover no-repeat;
       border: 2px solid rgba(255, 255, 255, 0.7);
-      position: relative;
       z-index: 1;
       box-shadow: 0 0 15px rgba(255, 255, 255, 0.7);
     }
@@ -177,8 +182,7 @@
       margin-top: 75.5px; margin-left: 74.5px;
       width: 150px; height: 150px;
       background: url('https://cdn.discordapp.com/avatar-decoration-presets/a_c3cffc19e9784f7d0b005eecdf1b566e.png?size=128&passthrough=false')
-        no-repeat center center;
-      background-size: contain;
+                 center/contain no-repeat;
       z-index: 2;
       transform: translate(-50%, -50%);
     }
@@ -223,7 +227,7 @@
       font-size: 14px;
       visibility: hidden; opacity: 0;
       transition: opacity 0.2s;
-      z-index: 10; 
+      z-index: 10;
       white-space: nowrap;
     }
     .badge:hover .tooltip {
@@ -231,16 +235,19 @@
     }
 
     .icon-wrapper {
-      display: flex; justify-content: center;
-      position: absolute; bottom: 50px; left: 50%;
+      position: absolute;
+      bottom: 50px; left: 50%;
       transform: translateX(-50%);
+      display: flex; 
+      justify-content: center; 
       text-shadow: 0 0 10px rgba(255, 255, 255, 1);
     }
     .icon-button {
-      font-size: 40px; color: white;
+      font-size: 40px;
+      color: white;
       text-decoration: none;
-      transition: transform 0.2s;
       margin: 0 5px;
+      transition: transform 0.2s;
     }
     .icon-button:hover {
       transform: scale(1.1);
@@ -252,7 +259,7 @@
     .static-text {
       font-size: 1.5rem;
       color: white;
-      bottom: 115px; margin-top: 25px;
+      margin-top: 25px;
       height: 40px;
       overflow: hidden;
       border-right: 2px solid;
@@ -270,10 +277,11 @@
      * VOLUME CONTROL
      ***********************************************/
     .volume-control-blurred {
-      position: fixed; top: 20px; left: 20px;
+      position: fixed; 
+      top: 20px; left: 20px;
       z-index: 100;
       width: 40px; height: 40px;
-      display: none;
+      display: none; /* show after user enters */
       background: rgba(255, 255, 255, 0.075);
       backdrop-filter: blur(10px);
       border-radius: 15px;
@@ -297,9 +305,11 @@
       line-height: 40px;
     }
     .volume-slider {
-      position: absolute; top: 0; bottom: 0; margin: auto 0; left: 50px;
+      position: absolute;
+      top: 0; bottom: 0; margin: auto 0; left: 50px;
       width: 80px;
-      opacity: 0; transform: scaleX(0);
+      opacity: 0;
+      transform: scaleX(0);
       transform-origin: left center;
       pointer-events: none;
       transition: transform 0.3s ease, opacity 0.3s ease;
@@ -319,11 +329,8 @@
     }
 
     /************************************************
-     * INFO + ABOUT SECTIONS
+     * INFO / ABOUT Sections
      ***********************************************/
-    #info, #about {
-      /* Different background overlays for readability */
-    }
     #info {
       background: rgba(0, 0, 0, 0.45);
     }
@@ -337,6 +344,7 @@
       border-radius: 8px;
       padding: 10px;
       max-width: 300px;
+      overflow: hidden; /* ensure no overflow */
     }
     .server-info img {
       width: 64px; height: 64px;
@@ -346,18 +354,13 @@
       display: flex; flex-direction: column;
     }
     .server-info a {
-      color: #6cf;
-      text-decoration: none;
-      margin-top: 6px;
+      color: #6cf; text-decoration: none; margin-top: 6px;
     }
-    h2 {
-      margin-bottom: 20px;
-      color: white;
-    }
-    p {
-      color: white;
-      max-width: 600px;
-      line-height: 1.4;
+    h2, p {
+      color: white; 
+      max-width: 800px; 
+      line-height: 1.4; 
+      text-align: center;
     }
   </style>
 </head>
@@ -371,14 +374,14 @@
     <div class="proceed-button" id="proceedButton">click</div>
   </div>
 
-  <!-- Navigation Buttons (shown after entering) -->
+  <!-- Nav Buttons (show after entering) -->
   <div class="nav-buttons" id="navButtons">
     <div class="nav-button" onclick="scrollToSection('main')">Main</div>
     <div class="nav-button" onclick="scrollToSection('info')">Info</div>
     <div class="nav-button" onclick="scrollToSection('about')">About</div>
   </div>
 
-  <!-- VOLUME CONTROL -->
+  <!-- Volume Control (show after entering) -->
   <div class="volume-control-blurred" id="volumeControl">
     <div class="icon-wrap">
       <i class="fas fa-volume-up volume-button" id="volumeButton"></i>
@@ -394,7 +397,7 @@
     />
   </div>
 
-  <!-- MAIN SECTION (top) -->
+  <!-- MAIN Section -->
   <section id="main">
     <div class="blurred-box" id="mainBox">
       <div class="profile-wrapper">
@@ -418,26 +421,23 @@
       </div>
       <div class="static-text" id="dynamic-text"></div>
       <div class="icon-wrapper">
-        <a href="https://www.roblox.com/users/3290769146/profile"
-           class="icon-button" target="_blank">
+        <a href="https://www.roblox.com/users/3290769146/profile" class="icon-button" target="_blank">
           <i class="fas fa-globe"></i>
         </a>
-        <a href="https://discord.gg/loser"
-           class="icon-button" target="_blank">
+        <a href="https://discord.gg/loser" class="icon-button" target="_blank">
           <i class="fab fa-discord"></i>
         </a>
-        <a href="https://www.tiktok.com/@umjayson"
-           class="icon-button" target="_blank">
+        <a href="https://www.tiktok.com/@umjayson" class="icon-button" target="_blank">
           <i class="fab fa-tiktok"></i>
         </a>
       </div>
     </div>
   </section>
 
-  <!-- INFO SECTION (below main) -->
+  <!-- INFO Section -->
   <section id="info">
     <h2>Information</h2>
-    <p>Here is some information about the Discord server:</p>
+    <p>Discord server info, etc.</p>
     <div class="server-info" id="serverInfo">
       <img src="" alt="Server Icon" id="serverIcon">
       <div class="info-text">
@@ -448,37 +448,36 @@
     </div>
   </section>
 
-  <!-- ABOUT SECTION (below info) -->
+  <!-- ABOUT Section -->
   <section id="about">
     <h2>About Me</h2>
-    <p>This is where you can add more details about yourself, your interests,
-       or anything you want visitors to know.</p>
+    <p>Lorem ipsum dolor sit amet, your bio, etc.</p>
   </section>
 
-  <!-- Main Script -->
+  <!-- MAIN SCRIPT -->
   <script>
     let hasClicked = false;
     let isMuted = false;
     let lastVolume = 0.5;
     let audio1, audio2;
 
-    const overlay       = document.getElementById('overlay');
-    const proceedButton = document.getElementById('proceedButton');
-    const background    = document.getElementById('bg');
-    const blurredBox    = document.getElementById('mainBox');
-    const volumeControl = document.getElementById('volumeControl');
-    const navButtons    = document.getElementById('navButtons');
+    const overlay         = document.getElementById('overlay');
+    const proceedButton   = document.getElementById('proceedButton');
+    const background      = document.getElementById('bg');
+    const blurredBox      = document.getElementById('mainBox');
+    const volumeControl   = document.getElementById('volumeControl');
+    const navButtons      = document.getElementById('navButtons');
+    const dynamicText     = document.getElementById('dynamic-text');
 
     function handleEnter() {
       if (hasClicked) return;
       hasClicked = true;
 
-      // Hide "click" text
+      // Hide proceed text
       proceedButton.classList.add('hide-proceed');
       // Switch background to GIF
       background.classList.add('unblurred');
 
-      // Fade out overlay, fade in main box
       setTimeout(() => {
         overlay.classList.add('fade-out');
         blurredBox.classList.add('fade-in');
@@ -486,7 +485,6 @@
         navButtons.style.display = 'flex';
       }, 500);
 
-      // Start audio
       playAudioSequence();
     }
 
@@ -502,30 +500,28 @@
       });
     }
 
-    // Volume controls
+    // Volume
     const volumeButton = document.getElementById('volumeButton');
     const volumeSlider = document.getElementById('volumeSlider');
-
     volumeButton.addEventListener('click', () => {
       if (!isMuted) {
         lastVolume = parseFloat(volumeSlider.value);
         volumeSlider.value = 0;
-        if(audio1) audio1.volume = 0;
-        if(audio2) audio2.volume = 0;
+        if (audio1) audio1.volume = 0;
+        if (audio2) audio2.volume = 0;
         isMuted = true;
         volumeButton.classList.replace('fa-volume-up', 'fa-volume-mute');
       } else {
         volumeSlider.value = lastVolume.toString();
-        if(audio1) audio1.volume = lastVolume;
-        if(audio2) audio2.volume = lastVolume;
+        if (audio1) audio1.volume = lastVolume;
+        if (audio2) audio2.volume = lastVolume;
         isMuted = false;
         volumeButton.classList.replace('fa-volume-mute', 'fa-volume-up');
       }
     });
-
     volumeSlider.addEventListener('input', (e) => {
       const volume = parseFloat(e.target.value);
-      if(audio1 && audio2) {
+      if (audio1 && audio2) {
         audio1.volume = volume;
         audio2.volume = volume;
       }
@@ -545,11 +541,10 @@
     let charIndex = 0;
     const typingSpeed = 100;
     const pauseBetweenPhrases = 2000;
-    const dynamicTextElement = document.getElementById('dynamic-text');
 
     function typePhrase() {
       if (charIndex < phrases[phraseIndex].length) {
-        dynamicTextElement.textContent += phrases[phraseIndex].charAt(charIndex);
+        dynamicText.textContent += phrases[phraseIndex][charIndex];
         charIndex++;
         setTimeout(typePhrase, typingSpeed);
       } else {
@@ -558,7 +553,7 @@
     }
     function erasePhrase() {
       if (charIndex > 0) {
-        dynamicTextElement.textContent = phrases[phraseIndex].substring(0, charIndex - 1);
+        dynamicText.textContent = phrases[phraseIndex].substring(0, charIndex - 1);
         charIndex--;
         setTimeout(erasePhrase, typingSpeed / 2);
       } else {
@@ -566,12 +561,13 @@
         setTimeout(typePhrase, typingSpeed);
       }
     }
+
     document.addEventListener('DOMContentLoaded', () => {
       typePhrase();
       fetchDiscordInfo();
     });
 
-    // Smooth tilt logic for .blurred-box
+    // Smooth tilt
     let currentRotationX = 0;
     let currentRotationY = 0;
     let targetRotationX = 0;
@@ -594,10 +590,10 @@
       const rect = blurredBox.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
-      const halfWidth = rect.width / 2;
-      const halfHeight = rect.height / 2;
-      targetRotationY = ((x - halfWidth) / halfWidth) * maxRotation;
-      targetRotationX = ((y - halfHeight) / halfHeight) * -maxRotation;
+      const halfW = rect.width / 2;
+      const halfH = rect.height / 2;
+      targetRotationY = ((x - halfW) / halfW) * maxRotation;
+      targetRotationX = ((y - halfH) / halfH) * -maxRotation;
     });
     blurredBox.addEventListener('mouseleave', () => {
       targetRotationX = 0;
@@ -605,19 +601,18 @@
     });
     animateTilt();
 
-    // Nav Buttons Scroll
-    function scrollToSection(sectionId) {
-      const section = document.getElementById(sectionId);
+    // Scroll
+    function scrollToSection(id) {
+      const section = document.getElementById(id);
       if (!section) return;
       section.scrollIntoView({ behavior: 'smooth' });
     }
 
-    // Discord Server Info (Widget)
+    // Discord Info
     function fetchDiscordInfo() {
-      const serverId = '1258478869405503668'; // Replace with your real server ID
-      const serverInfoUrl = `https://discord.com/api/guilds/${serverId}/widget.json`;
-
-      fetch(serverInfoUrl)
+      const serverId = '1258478869405503668'; // your real server ID
+      const url = `https://discord.com/api/guilds/${serverId}/widget.json`;
+      fetch(url)
         .then(res => res.json())
         .then(data => {
           document.getElementById('serverName').textContent = data.name || 'Discord Server';
@@ -627,9 +622,7 @@
             document.getElementById('serverJoin').href = data.instant_invite;
           }
         })
-        .catch(err => {
-          console.error('Could not fetch Discord server info:', err);
-        });
+        .catch(err => console.error('Could not fetch Discord server info', err));
     }
   </script>
 </body>
