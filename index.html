@@ -8,34 +8,66 @@
   <meta property="og:image" content="https://ilovemoney.lol/ref/misc//IMG_9240.png" />
   <meta property="og:url" content="https://ilovemoney.lol/" />
   <meta property="theme-color" content="#1b1b1b" />
-  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
-  <script src="ref/js/sexymouse.js"></script>
-  <script src="ref/js/bettersnow.js"></script>
-  <script src="ref/js/ZOOOOOOOOM.js"></script>
   <title>@jayson</title>
   <link rel="icon" href="ref/misc/logo.png" type="image/x-icon">
-  <link rel="stylesheet" href="ref/css/styles.css" />
   <link
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
   />
-
   <style>
+    /* ---------------------------------------
+       BASE & TRANSITIONS
+    -----------------------------------------*/
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      user-select: none;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden; /* remove scrollbars initially */
+      height: 100vh;
+      background-color: black;
+      font-family: Arial, sans-serif;
+    }
+
+    /* ---------------------------------------
+       BACKGROUND
+       - Start with a static background image
+       - When user clicks, we switch .unblurred
+    -----------------------------------------*/
     .background {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
-      background-image: url('ref/misc/MyCarGif.gif');
+      background-image: url('ref/misc/STATIC_IMAGE.png'); /* <-- Use a static image or blank initially */
       background-size: cover;
       background-position: center;
       filter: blur(8px);
-      transition: filter 1.5s ease;
+      transition: filter 1.5s ease, background-image 0.5s ease;
+      z-index: 0;
     }
     .unblurred {
       filter: blur(0);
+      /* Switch to the actual GIF when unblurred */
+      background-image: url('ref/misc/MyCarGif.gif');
     }
-    #overlay {
+
+    /* ---------------------------------------
+       OVERLAY
+    -----------------------------------------*/
+    .overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 10;
       opacity: 1;
       transition: opacity 1s ease;
+      cursor: pointer;
     }
     .fade-out {
       opacity: 0;
@@ -43,27 +75,159 @@
     }
 
     .proceed-button {
+      color: white;
+      font-size: 32px;
+      font-weight: bold;
+      text-align: center;
+      text-shadow: 0 0 5px rgba(255, 255, 255, 0.6),
+                   0 0 10px rgba(255, 255, 255, 0.6),
+                   0 0 15px rgba(255, 255, 255, 0.6),
+                   0 0 20px rgba(255, 255, 255, 0.6);
       opacity: 1;
       transition: opacity 1s ease;
-      pointer-events: auto;
+      pointer-events: none; /* so clicking anywhere works */
     }
     .hide-proceed {
       opacity: 0;
       pointer-events: none;
     }
 
+    /* ---------------------------------------
+       MAIN BOX
+    -----------------------------------------*/
     .blurred-box {
-      /* Add a perspective to make rotations pop a bit more */
-      transform: translateY(100vh) perspective(800px) rotateX(0) rotateY(0);
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 600px;
+      height: 400px;
+      transform: translate(-50%, -50%) perspective(800px) rotateX(0) rotateY(0);
       transform-style: preserve-3d;
+      background: rgba(255, 255, 255, 0.075);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
       opacity: 0;
       transition: opacity 0.6s ease, transform 0.6s ease;
+      z-index: 5;
     }
     .blurred-box.fade-in {
-      transform: translateY(0) perspective(800px) rotateX(0) rotateY(0);
+      opacity: 1;
+      transform: translate(-50%, -50%) perspective(800px) rotateX(0) rotateY(0);
+    }
+
+    .profile-wrapper {
+      position: relative;
+      width: 150px;
+      height: 150px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 0;
+      margin-top: -160px;
+    }
+    .profile-picture {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: url('ref/misc/IMG_9240.png') no-repeat center center;
+      background-size: cover;
+      border: 2px solid rgba(255, 255, 255, 0.7);
+      position: relative;
+      z-index: 1;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.7);
+    }
+    .profile-decoration {
+      position: absolute;
+      margin-top: 75.5px;
+      margin-left: 74.5px;
+      width: 150px;
+      height: 150px;
+      background: url('https://cdn.discordapp.com/avatar-decoration-presets/a_c3cffc19e9784f7d0b005eecdf1b566e.png?size=128&passthrough=false')
+        no-repeat center center;
+      background-size: contain;
+      z-index: 2;
+      transform: translate(-50%, -50%);
+    }
+    .profile-name {
+      font-size: 38px;
+      color: white;
+      text-align: center;
+      margin-top: -12px;
+      text-shadow: 0 0 5px rgba(255, 255, 255, 0.6),
+                   0 0 10px rgba(255, 255, 255, 0.6),
+                   0 0 15px rgba(255, 255, 255, 0.6),
+                   0 0 20px rgba(255, 255, 255, 0.6);
+    }
+
+    .showcase {
+      width: 105px;
+      height: 30px;
+      margin-top: 10px;
+      background-color: rgba(255, 255, 255, 0.08);
+      border: 2px solid rgba(255, 255, 255, 0.04);
+      border-radius: 25px;
+      display: flex;
+      gap: 7px;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+    .badge {
+      color: white;
+      font-size: 20px;
+      position: relative;
+      cursor: pointer;
+      text-shadow: 0 0 5px rgba(255, 255, 255, 1);
+    }
+    .tooltip {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: rgba(46, 46, 46, 0.89);
+      color: white;
+      padding: 5px 10px;
+      border-radius: 25px;
+      font-size: 14px;
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity 0.2s;
+      z-index: 10;
+      white-space: nowrap;
+    }
+    .badge:hover .tooltip {
+      visibility: visible;
       opacity: 1;
     }
 
+    .icon-wrapper {
+      display: flex;
+      justify-content: center;
+      position: absolute;
+      bottom: 50px;
+      left: 50%;
+      transform: translateX(-50%);
+      text-shadow: 0 0 10px rgba(255, 255, 255, 1);
+    }
+    .icon-button {
+      font-size: 40px;
+      color: white;
+      text-decoration: none;
+      position: relative;
+      transition: transform 0.2s;
+      margin: 0 5px;
+    }
+    .icon-button:hover {
+      transform: scale(1.1);
+    }
+
+    /* DYNAMIC TYPING */
     .static-text {
       font-size: 1.5rem;
       color: white;
@@ -78,26 +242,31 @@
       transition: opacity 1s ease;
     }
     @keyframes blink-caret {
-      from, to { border-color: transparent; }
-      50%      { border-color: white; }
+      from,
+      to {
+        border-color: transparent;
+      }
+      50% {
+        border-color: white;
+      }
     }
 
+    /* ---------------------------------------
+       VOLUME CONTROL
+    -----------------------------------------*/
     .volume-control-blurred {
       position: fixed;
       top: 20px;
       left: 20px;
       z-index: 100;
-
       width: 40px;
       height: 40px;
-      display: none; 
-
+      display: none;
       background: rgba(255, 255, 255, 0.075);
       backdrop-filter: blur(10px);
       border-radius: 15px;
       box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
       border: 1px solid rgba(255, 255, 255, 0);
-
       overflow: hidden;
       transition: width 0.3s ease;
     }
@@ -107,8 +276,7 @@
     .icon-wrap {
       position: absolute;
       top: 0; left: 0;
-      width: 40px;
-      height: 40px;
+      width: 40px; height: 40px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -122,12 +290,8 @@
     }
     .volume-slider {
       position: absolute;
-      top: 0;
-      bottom: 0;
-      margin: auto 0;
-      left: 50px;
-      width: 80px;
-
+      top: 0; bottom: 0; margin: auto 0;
+      left: 50px; width: 80px;
       opacity: 0;
       transform: scaleX(0);
       transform-origin: left center;
@@ -145,17 +309,14 @@
       cursor: pointer;
       background: transparent;
     }
-    .volume-slider::-webkit-slider-runnable-track {
-      height: 3px;
-      background: white;
-      border-radius: 2px;
-    }
+    .volume-slider::-webkit-slider-runnable-track,
     .volume-slider::-moz-range-track {
       height: 3px;
       background: white;
       border-radius: 2px;
     }
-    .volume-slider::-webkit-slider-thumb {
+    .volume-slider::-webkit-slider-thumb,
+    .volume-slider::-moz-range-thumb {
       appearance: none;
       background: white;
       border-radius: 50%;
@@ -164,23 +325,105 @@
       margin-top: -5px;
       cursor: pointer;
     }
-    .volume-slider::-moz-range-thumb {
-      background: white;
-      border-radius: 50%;
-      width: 12px;
-      height: 12px;
+
+    /* ---------------------------------------
+       NAV BUTTONS (MAIN, INFO, ABOUT)
+       - Shown after user enters
+    -----------------------------------------*/
+    .nav-buttons {
+      position: fixed;
+      top: 80px;
+      right: 20px;
+      display: none; /* Hidden initially, shown on click */
+      flex-direction: column;
+      gap: 10px;
+      z-index: 50;
+    }
+    .nav-button {
+      color: white;
+      background: rgba(255, 255, 255, 0.075);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0);
+      border-radius: 15px;
+      padding: 8px 16px;
       cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s ease;
+    }
+    .nav-button:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    /* ---------------------------------------
+       SCROLLABLE SECTIONS FOR INFO / ABOUT
+       - We'll re-enable body scrolling once
+         user has entered
+    -----------------------------------------*/
+    .content-sections {
+      position: relative;
+      width: 100%;
+      height: auto;
+      margin-top: 100vh; /* push content out of initial view if you want to remain hidden behind box */
+      background: #222;
+      color: white;
+      overflow-y: auto;
+    }
+    .section {
+      min-height: 100vh;
+      padding: 40px;
+    }
+    #main {
+      background: #333;
+    }
+    #info {
+      background: #444;
+    }
+    #about {
+      background: #555;
+    }
+    h2 {
+      margin-bottom: 20px;
+    }
+
+    /* For the Discord server info box */
+    .server-info {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      background: rgba(255, 255, 255, 0.075);
+      backdrop-filter: blur(10px);
+      border-radius: 8px;
+      padding: 10px;
+      max-width: 300px;
+    }
+    .server-info img {
+      width: 64px;
+      height: 64px;
+      border-radius: 8px;
+      object-fit: cover;
+    }
+    .server-info .info-text {
+      display: flex;
+      flex-direction: column;
+    }
+    .server-info a {
+      color: #6cf;
+      text-decoration: none;
+      margin-top: 6px;
     }
   </style>
 </head>
+<body>
 
-<body class="blurred">
-  <div class="background"></div>
+  <!-- Background (static at first, replaced with GIF on click) -->
+  <div class="background" id="bg"></div>
 
+  <!-- Overlay (click to enter) -->
   <div class="overlay" id="overlay" onclick="handleEnter()">
     <div class="proceed-button" id="proceedButton">click</div>
   </div>
 
+  <!-- Main Box (Profile) -->
   <div class="blurred-box" id="mainBox">
     <div class="profile-wrapper">
       <div class="profile-decoration"></div>
@@ -210,23 +453,16 @@
       >
         <i class="fas fa-globe"></i>
       </a>
-      <a
-        href="https://discord.gg/loser"
-        class="icon-button"
-        target="_blank"
-      >
+      <a href="https://discord.gg/loser" class="icon-button" target="_blank">
         <i class="fab fa-discord"></i>
       </a>
-      <a
-        href="https://www.tiktok.com/@umjayson"
-        class="icon-button"
-        target="_blank"
-      >
+      <a href="https://www.tiktok.com/@umjayson" class="icon-button" target="_blank">
         <i class="fab fa-tiktok"></i>
       </a>
     </div>
   </div>
 
+  <!-- Volume Control -->
   <div class="volume-control-blurred" id="volumeControl">
     <div class="icon-wrap">
       <i class="fas fa-volume-up volume-button" id="volumeButton"></i>
@@ -242,7 +478,44 @@
     />
   </div>
 
+  <!-- Navigation Buttons (Show after entering) -->
+  <div class="nav-buttons" id="navButtons">
+    <div class="nav-button" onclick="scrollToSection('main')">Main</div>
+    <div class="nav-button" onclick="scrollToSection('info')">Info</div>
+    <div class="nav-button" onclick="scrollToSection('about')">About</div>
+  </div>
+
+  <!-- Scrollable Content Sections -->
+  <div class="content-sections" id="contentSections">
+    <div class="section" id="main">
+      <h2>Main Section</h2>
+      <p>This is your main landing area. Scroll up or click “Main” to come back here.</p>
+    </div>
+    <div class="section" id="info">
+      <h2>Information</h2>
+      <p>Here is the Discord server info. (Demo fetch or placeholders below.)</p>
+      <div class="server-info" id="serverInfo">
+        <img src="" alt="Server Icon" id="serverIcon">
+        <div class="info-text">
+          <div id="serverName">Server Name</div>
+          <div id="memberCount">Member Count: ???</div>
+          <a href="#" target="_blank" id="serverJoin">Join Server</a>
+        </div>
+      </div>
+    </div>
+    <div class="section" id="about">
+      <h2>About Me</h2>
+      <p>Write something here about yourself. Lorem ipsum dolor sit amet...</p>
+    </div>
+  </div>
+
+  <!-- Scripts -->
   <script>
+    <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+    // <script src="ref/js/sexymouse.js"></script>
+    // <script src="ref/js/bettersnow.js"></script>
+    // <script src="ref/js/ZOOOOOOOOM.js"></script>
+
     let hasClicked = false;
     let isMuted = false;
     let lastVolume = 0.5;
@@ -250,21 +523,30 @@
 
     const overlay       = document.getElementById('overlay');
     const proceedButton = document.getElementById('proceedButton');
-    const background    = document.querySelector('.background');
+    const background    = document.getElementById('bg');
     const blurredBox    = document.getElementById('mainBox');
     const volumeControl = document.getElementById('volumeControl');
+    const navButtons    = document.getElementById('navButtons');
+    const contentSections = document.getElementById('contentSections');
 
     function handleEnter() {
       if (hasClicked) return;
       hasClicked = true;
 
+      // Hide the overlay text
       proceedButton.classList.add('hide-proceed');
+      // Unblur the background and switch it to the GIF
       background.classList.add('unblurred');
 
+      // Fade out the overlay
       setTimeout(() => {
         overlay.classList.add('fade-out');
         blurredBox.classList.add('fade-in');
         volumeControl.style.display = 'block';
+        navButtons.style.display = 'flex';
+
+        // Re-enable body scroll:
+        document.body.style.overflow = 'auto';
       }, 500);
 
       playAudioSequence();
@@ -282,6 +564,7 @@
       });
     }
 
+    // Volume controls
     const volumeButton = document.getElementById('volumeButton');
     const volumeSlider = document.getElementById('volumeSlider');
 
@@ -289,14 +572,14 @@
       if (!isMuted) {
         lastVolume = parseFloat(volumeSlider.value);
         volumeSlider.value = 0;
-        audio1.volume = 0;
-        audio2.volume = 0;
+        if(audio1) audio1.volume = 0;
+        if(audio2) audio2.volume = 0;
         isMuted = true;
         volumeButton.classList.replace('fa-volume-up', 'fa-volume-mute');
       } else {
         volumeSlider.value = lastVolume.toString();
-        audio1.volume = lastVolume;
-        audio2.volume = lastVolume;
+        if(audio1) audio1.volume = lastVolume;
+        if(audio2) audio2.volume = lastVolume;
         isMuted = false;
         volumeButton.classList.replace('fa-volume-mute', 'fa-volume-up');
       }
@@ -304,16 +587,16 @@
 
     volumeSlider.addEventListener('input', (e) => {
       const volume = parseFloat(e.target.value);
+      if (audio1 && audio2) {
+        audio1.volume = volume;
+        audio2.volume = volume;
+      }
       if (volume === 0) {
         isMuted = true;
         volumeButton.classList.replace('fa-volume-up', 'fa-volume-mute');
-        audio1.volume = 0;
-        audio2.volume = 0;
       } else {
         isMuted = false;
         volumeButton.classList.replace('fa-volume-mute', 'fa-volume-up');
-        audio1.volume = volume;
-        audio2.volume = volume;
         lastVolume = volume;
       }
     });
@@ -339,7 +622,6 @@
         setTimeout(erasePhrase, pauseBetweenPhrases);
       }
     }
-
     function erasePhrase() {
       if (charIndex > 0) {
         dynamicTextElement.textContent = phrases[phraseIndex].substring(0, charIndex - 1);
@@ -350,59 +632,77 @@
         setTimeout(typePhrase, typingSpeed);
       }
     }
-
     document.addEventListener('DOMContentLoaded', () => {
       typePhrase();
+      fetchDiscordInfo();
     });
 
-    /**********************************************
-     *  IMPROVED, SMOOTH TILT LOGIC
-     **********************************************/
+    // Smooth tilt logic for the .blurred-box
     let currentRotationX = 0;
     let currentRotationY = 0;
     let targetRotationX = 0;
     let targetRotationY = 0;
-
-    // How "fast" or "snappy" the tilt moves (0.1 = slower, 0.2 = faster)
     const easing = 0.1;
-    // Maximum rotation (in degrees) from the center
     const maxRotation = 15;
 
-    // Animate via requestAnimationFrame
     function animateTilt() {
-      // Interpolate/lerp current rotation toward target rotation
       currentRotationX += (targetRotationX - currentRotationX) * easing;
       currentRotationY += (targetRotationY - currentRotationY) * easing;
-
-      // Apply the transform
-      blurredBox.style.transform = `translateY(0) perspective(800px) rotateX(${currentRotationX}deg) rotateY(${currentRotationY}deg)`;
-
+      blurredBox.style.transform = `
+        translate(-50%, -50%)
+        perspective(800px)
+        rotateX(${currentRotationX}deg)
+        rotateY(${currentRotationY}deg)
+      `;
       requestAnimationFrame(animateTilt);
     }
-
     blurredBox.addEventListener('mousemove', (e) => {
       const rect = blurredBox.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
-
-      // Calculate range [-1..1] for both x and y relative to center
       const halfWidth = rect.width / 2;
       const halfHeight = rect.height / 2;
       const rotateY = ((x - halfWidth) / halfWidth) * maxRotation; // left/right
-      const rotateX = ((y - halfHeight) / halfHeight) * -maxRotation; // up/down (negative for correct orientation)
-
+      const rotateX = ((y - halfHeight) / halfHeight) * -maxRotation; // up/down
       targetRotationX = rotateX;
       targetRotationY = rotateY;
     });
-
     blurredBox.addEventListener('mouseleave', () => {
-      // Return to 0 rotation smoothly
       targetRotationX = 0;
       targetRotationY = 0;
     });
-
-    // Start the animation loop
     animateTilt();
+
+    // NAV BUTTONS SCROLL
+    function scrollToSection(sectionId) {
+      const section = document.getElementById(sectionId);
+      if (!section) return;
+      section.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // EXAMPLE: Fetch Discord Server Info (requires server widget enabled)
+    function fetchDiscordInfo() {
+      const serverId = '1258478869405503668'; // Replace with real ID
+      const serverInfoUrl = `https://discord.com/api/guilds/${serverId}/widget.json`;
+
+      // If your server has the widget enabled, you can fetch real data:
+      fetch(serverInfoUrl)
+        .then(res => res.json())
+        .then(data => {
+          // e.g. data.name, data.instant_invite, data.presence_count, data.icon_url
+          document.getElementById('serverName').textContent = data.name || 'Discord Server';
+          document.getElementById('memberCount').textContent = 'Members: ' + (data.presence_count || '???');
+          document.getElementById('serverIcon').src = data.icon_url || '';
+          if (data.instant_invite) {
+            document.getElementById('serverJoin').href = data.instant_invite;
+          }
+        })
+        .catch(err => {
+          console.error('Could not fetch Discord server info:', err);
+          // Fallback or do nothing
+        });
+    }
   </script>
+
 </body>
 </html>
