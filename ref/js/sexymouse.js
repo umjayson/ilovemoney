@@ -8,7 +8,7 @@ document.addEventListener('mousemove', function (_0x48ed84) {
 })
 function createPlusSign(_0xe9da13, _0x2b1b49) {
   const _0x4e65d7 = document.createElement('div')
-  _0x4e65d7.innerText = '+'
+  _0x4e65d7.innerText = '﹩'
   _0x4e65d7.style.position = 'absolute'
   _0x4e65d7.style.left = _0xe9da13 + 'px'
   _0x4e65d7.style.top = _0x2b1b49 + 'px'
